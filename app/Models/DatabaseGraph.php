@@ -11,12 +11,12 @@ class DatabaseGraph extends Model
     protected $returnType = 'array';
     public function getServer($field1 = null, $field2 = null)
     {
-        if ($field1 === null) {
+        if ($field1 === null || $field2 === null) {
             return $this->first();
         }
         else
         {
-            return $this->select($field2.', created_date')->where('SERVERNAME', $field1)->findAll();
+            return $this->select($field2.', REPORTINGDATETIME')->where('SERVERNAME', $field1)->findAll();
         }
     }
 }

@@ -13,6 +13,5 @@ Type of Query:
 </select> 
 <input type="submit">
 </form>
-
 </body>
 </html>
