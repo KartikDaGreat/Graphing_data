@@ -16,7 +16,7 @@ class DatabaseGraph extends Model
         }
         else
         {
-            return $this->where('SERVERNAME', $field1)->first();
+            return $this->select($field2.', created_date')->where('SERVERNAME', $field1)->findAll();
         }
     }
 }

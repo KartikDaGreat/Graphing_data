@@ -3,8 +3,8 @@
 namespace App\Controllers;
 use App\Models\DatabaseGraph;
 class Blog extends BaseController {
-        protected $retType = "CPULOAD";
-        // CPU LOAD | MEMORY LOAD | PROCESSES | DISK SIZE
+        // query req: CPU LOAD | MEMORY LOAD | PROCESSES | DISK SIZE
+
         public function index()
         {
             return view('index');
@@ -12,10 +12,10 @@ class Blog extends BaseController {
         
         public function result()
         {
-            form(;;)
             $model = new DatabaseGraph();
-            $data["result"] = $model->getServer('cl1-multi.enovasolutions.com');
-            //$data['returnType'] = $GLOBALS['retType'];
+            $servername = $this->request->getVar("servername");
+            $queryreq = $this->request->getVar("qry");
+            $data["result"] = $model->getServer($servername, $queryreq);
             return view('finalView', $data);
         }
     }
