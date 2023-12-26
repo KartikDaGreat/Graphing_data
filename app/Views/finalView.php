@@ -1,3 +1,5 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 <!-- Styles -->
 <style>
     #chartdiv {
@@ -11,10 +13,12 @@
 <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
 
-<!-- Chart code -->
 <script>
     am5.ready(function() {
-
+        <?php
+        $json = '<?php echo $result?>';
+        ?>
+        let emp = json_parse($json);
         // Create root element
         // https://www.amcharts.com/docs/v5/getting-started/#Root_element
         var root = am5.Root.new("chartdiv");
@@ -57,34 +61,29 @@
         }));
         cursor.lineY.set("visible", false);
 
-        var date = new Date();
-        date.setHours(0, 0, 0, 0);
-        var value = 100;
 
-
-
-        function generateData(obj) {
-            var data;
-            <?php
-            $json = json_encode($result);
-            echo "<script>var data = $json;</script>";
-            ?>
-            value = Math.round((Math.random() * 10 - 5) + value);
-            am5.time.add(date, "day", 1);
-            return {
-                date: date.getTime(),
-                value: value
-            };
-            var res = [];
-            data.foreach(sendval)
-
-            function sendval(item)
-            {
-                res.push({date:})
-            }
-            return res;
+        function generateDatas() {
+            var data = [];
+            emp.forEach((rec) => {
+                var date = new Date();
+                var temp = rec.REPORTINGDATETIME;
+                var year = temp.slice(0, 4);
+                var mon = temp.slice(4, 6);
+                var day = temp.slice(6, 8);
+                var hour = temp.slice(9, 11);
+                var mint = temp.slice(11, 13);
+                date.setFullYear(parseInt(year));
+                date.setMonth(parseInt(mon));
+                date.setDate(parseInt(day));
+                date.setHours(parseInt(hour), parseInt(mint), 1, 0); //hour:min:sec:millisec
+                var val = rec.CPULOAD;
+                data.push({
+                    date: date,
+                    value: val
+                });
+            });
+            return data;
         }
-
 
 
         // Create axes
@@ -143,7 +142,7 @@
             orientation: "horizontal"
         }));
 
-        var data = generateDatas(30);
+        var data = generateDatas();
         series.data.setAll(data);
 
 

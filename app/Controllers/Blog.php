@@ -15,7 +15,7 @@ class Blog extends BaseController {
             $model = new DatabaseGraph();
             $servername = $this->request->getVar("servername");
             $queryreq = $this->request->getVar("qry");
-            $data["result"] = $model->getServer($servername, $queryreq);
+            $data["result"] = json_encode($model->getServer($servername, $queryreq));
             return view('finalView', $data);
         }
     }

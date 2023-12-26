@@ -16,7 +16,8 @@ class DatabaseGraph extends Model
         }
         else
         {
-            return $this->select($field2.', REPORTINGDATETIME')->where('SERVERNAME', $field1)->findAll();
+            return $this->first();
+            //return $this->select($field2.', REPORTINGDATETIME')->where('SERVERNAME', $field1)->findAll();
         }
     }
 }
